@@ -1,4 +1,4 @@
-using MassTransit;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MassTransit.Extensions.Hosting;
+using MassTransit;
 
 namespace Order.API
 {
@@ -38,7 +40,7 @@ namespace Order.API
                 });
             });
 
-            
+
 
 
             services.AddDbContext<AppDbContext>(options =>
@@ -47,7 +49,7 @@ namespace Order.API
                 options.UseSqlServer(Configuration.GetConnectionString("SqlCon"));
 
             });
-           
+            //services.AddMassTransitHostedService();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -69,6 +71,7 @@ namespace Order.API
 
             app.UseRouting();
 
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
