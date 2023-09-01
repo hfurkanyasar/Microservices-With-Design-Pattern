@@ -1,4 +1,6 @@
 
+
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,8 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MassTransit.Extensions.Hosting;
-using MassTransit;
 
 namespace Order.API
 {
@@ -36,20 +36,20 @@ namespace Order.API
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host(Configuration.GetConnectionString("RabbitMQ"));
-
                 });
             });
 
+            
 
 
 
             services.AddDbContext<AppDbContext>(options =>
-            {
+                {
 
-                options.UseSqlServer(Configuration.GetConnectionString("SqlCon"));
+                    options.UseSqlServer(Configuration.GetConnectionString("SqlCon"));
 
-            });
-            //services.AddMassTransitHostedService();
+                });
+            services.AddMassTransitHostedService();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -71,7 +71,7 @@ namespace Order.API
 
             app.UseRouting();
 
-            
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
