@@ -20,9 +20,23 @@ namespace Payment.API.Consumer
         }
 
         
-        public Task Consume(ConsumeContext<StockReservedEvent> context)
+        public async Task Consume(ConsumeContext<StockReservedEvent> context)
         {
-            throw new NotImplementedException();
+
+            var balance = 3000m;
+            if (balance>context.Message.Payment.TotalPrice)
+            {
+                _logger.LogInformation($"{context.Message.Payment.TotalPrice} TL was withdrawn cradit card for user ID={context.Message.BuyerID}");
+
+                await _publishEndpoint.Publish(new PaymentSuccessedEvent { BuyerID = context.Message.BuyerID, OrderID = context.Message.OrderID });
+
+            }
+            else
+            {
+                _logger.LogInformation($"{context.Message.Payment.TotalPrice} TL was not withdrawn from cradit cart for user ID={context.Message.BuyerID}");
+
+                await _publishEndpoint.Publish(new PaymantFailedEvent { BuyerID = context.Message.BuyerID, OrderID = context.Message.OrderID,Message="not enough balance" });
+            }
         }
     }
 }
