@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Payment.API.Consumer
 {
-    public class stockReservedEventConsumer : IConsumer<StockReservedEvent>
+    public class StockReservedEventConsumer : IConsumer<StockReservedEvent>
     {
-        private readonly ILogger<stockReservedEventConsumer> _logger;
+        private readonly ILogger<StockReservedEventConsumer> _logger;
         private readonly IPublishEndpoint _publishEndpoint;
 
-        public stockReservedEventConsumer(ILogger<stockReservedEventConsumer> logger, IPublishEndpoint publishEndpoint)
+        public StockReservedEventConsumer(ILogger<StockReservedEventConsumer> logger, IPublishEndpoint publishEndpoint)
         {
             _logger = logger;
             _publishEndpoint = publishEndpoint;

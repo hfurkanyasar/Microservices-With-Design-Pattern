@@ -2,19 +2,12 @@
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Payment.API.Consumer;
 using Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Payment.API
 {
@@ -35,7 +28,7 @@ namespace Payment.API
             {
 
 
-                x.AddConsumer<stockReservedEventConsumer>();
+                x.AddConsumer<StockReservedEventConsumer>();
                 x.UsingRabbitMq((context, cfg) =>
                 {
 
@@ -44,9 +37,9 @@ namespace Payment.API
 
 
 
-                    cfg.ReceiveEndpoint(RabbitMQSettingsConst.PaymentStockReservedEventQueueName, e =>
+                    cfg.ReceiveEndpoint(RabbitMQSettingsConst.StockRedervedEventQueueName, e =>
                     {
-                        e.ConfigureConsumer<stockReservedEventConsumer>(context);
+                        e.ConfigureConsumer<StockReservedEventConsumer>(context);
 
 
                     });
