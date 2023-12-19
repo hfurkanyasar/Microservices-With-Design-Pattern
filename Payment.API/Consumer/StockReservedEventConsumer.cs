@@ -28,14 +28,14 @@ namespace Payment.API.Consumer
             {
                 _logger.LogInformation($"{context.Message.Payment.TotalPrice} TL was withdrawn cradit card for user ID={context.Message.BuyerID}");
 
-                await _publishEndpoint.Publish(new PaymentSuccessedEvent { BuyerID = context.Message.BuyerID, OrderID = context.Message.OrderID });
+                await _publishEndpoint.Publish(new PaymentCompletedEvent { BuyerID = context.Message.BuyerID, OrderID = context.Message.OrderID });
 
             }
             else
             {
                 _logger.LogInformation($"{context.Message.Payment.TotalPrice} TL was not withdrawn from cradit cart for user ID={context.Message.BuyerID}");
 
-                await _publishEndpoint.Publish(new PaymantFailedEvent { BuyerID = context.Message.BuyerID, OrderID = context.Message.OrderID,Message="not enough balance" });
+                await _publishEndpoint.Publish(new PaymentFailedEvent { BuyerID = context.Message.BuyerID, OrderID = context.Message.OrderID,Message="not enough balance" });
             }
         }
     }
