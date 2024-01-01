@@ -11,5 +11,7 @@ namespace Shared
         public int OrderID { get; set; }
         public string BuyerID { get; set; }
         public string Message { get; set; }
+
+        public List<OrderItemMessage>  orderItems { get; set; }
     }
 }

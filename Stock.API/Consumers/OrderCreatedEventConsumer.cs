@@ -27,6 +27,7 @@ namespace Stock.API.Consumers
 
         public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
         {
+            
             var stockResult = new List<bool>();
             foreach (var item in context.Message.orderItems)
             {

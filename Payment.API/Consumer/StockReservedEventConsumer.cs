@@ -35,7 +35,7 @@ namespace Payment.API.Consumer
             {
                 _logger.LogInformation($"{context.Message.Payment.TotalPrice} TL was not withdrawn from cradit cart for user ID={context.Message.BuyerID}");
 
-                await _publishEndpoint.Publish(new PaymentFailedEvent { BuyerID = context.Message.BuyerID, OrderID = context.Message.OrderID,Message="not enough balance" });
+                await _publishEndpoint.Publish(new PaymentFailedEvent { BuyerID = context.Message.BuyerID, OrderID = context.Message.OrderID,Message="not enough balance" ,orderItems=context.Message.OrderItems});
             }
         }
     }

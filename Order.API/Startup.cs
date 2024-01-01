@@ -38,6 +38,7 @@ namespace Order.API
             {
                 x.AddConsumer<PaymentCompletedEventConsumer>();
                 x.AddConsumer<PaymentFailedEventConsumer>();
+                x.AddConsumer<StockNotReservedEventConsumer>();
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host(Configuration.GetConnectionString("RabbitMQ"));
@@ -47,11 +48,19 @@ namespace Order.API
 
                         e.ConfigureConsumer<PaymentCompletedEventConsumer>(context);
                     });
+
                     cfg.ReceiveEndpoint(RabbitMQSettingsConst.OrderPaymentFailedEventQueueName, e =>
                     {
 
                         e.ConfigureConsumer<PaymentFailedEventConsumer>(context);
                     });
+
+                    cfg.ReceiveEndpoint(RabbitMQSettingsConst.OrderStockNotReservedEventQueueName, e =>
+                    {
+
+                        e.ConfigureConsumer<StockNotReservedEventConsumer>(context);
+                    });
+
                 });
             });
 
